@@ -30,7 +30,7 @@ int main(){
     send(sock,msg,strlen(msg),0);
     printf("Msg sent to server\n");
 
-    auto bytes = read(sock,buffer,sizeof(buffer)-1);
+    auto bytes = recv(sock,buffer,sizeof(buffer)-1,0);
     if(bytes > 0){
         buffer[bytes] = '\0';
         printf("Server:%s",buffer);

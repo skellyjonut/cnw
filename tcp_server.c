@@ -8,9 +8,9 @@
 
 int main(){
     int server_fd,new_socket;
-    struct sockaddr_in addr = {0};
+    struct sockaddr_in addr;
     socklen_t addrlen = sizeof(addr);
-    char buffer[1024] = {0};
+    char buffer[1024];
     char *msg = "Hello from Server";
 
     server_fd = socket(AF_INET,SOCK_STREAM,0);
@@ -36,14 +36,14 @@ int main(){
 
     printf("Server listening...\n");
 
-    new_socket = accept(server_fd,(struct sockaddr *)& addr,sizeof(addr));
+    new_socket = accept(server_fd,(struct sockaddr *)& addr,&addrlen);
     if(new_socket < 0){
         perror("Error");
         close(server_fd);
         exit(EXIT_FAILURE);
     }
     
-    auto bytes = read(new_socket,buffer,sizeof(buffer)-1);
+    int bytes = recv(new_socket,buffer,sizeof(buffer)-1,0);
     if(bytes > 0){
         buffer[bytes] = '\0';
         printf("Client: %s\n",buffer);
